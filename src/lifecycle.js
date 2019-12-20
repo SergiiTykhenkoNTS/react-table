@@ -23,9 +23,9 @@ export default Base =>
       this.fireFetchData()
     }
 
-    componentDidUpdate (prevProps, prevState) {
-      const oldState = this.getResolvedState(prevProps, prevState)
-      const newState = this.getResolvedState(this.props, this.state)
+    shouldComponentUpdate (prevProps, prevState) {
+      const oldState = this.getResolvedState(this.props, this.state)
+      const newState = this.getResolvedState(nextProps, nextState)
 
       // Do a deep compare of new and old `defaultOption` and
       // if they are different reset `option = defaultOption`
@@ -60,7 +60,9 @@ export default Base =>
         oldState.filtered !== newState.filtered
       ) {
         this.setStateWithData(this.getDataModel(newState, oldState.data !== newState.data))
+        return false;
       }
+      return true;
     }
 
     calculateNewResolvedState (dataModel) {
